@@ -1,5 +1,5 @@
 let app;
-let appHolder, menu, menuHover, isHover, btn, oldStair, hammer, hammerClicked;
+let appHolder, menu, menu2, menu3, menuHover, isHover, btn, oldStair, hammer, hammerClicked, menuH, menuW;
 const ease = new Ease.Ease();
 
 window.onload = function() {
@@ -45,11 +45,12 @@ window.onload = function() {
     //bg.y = app.renderer.view.height / 2 - bg.height / 2;
 
     let austin = new PIXI.Sprite(PIXI.loader.resources.austin.texture);
-    austin.x = 150;
-    austin.y = 150;
+    austin.x = 750;
+    austin.y = 250;
     austin.anchor.x = 0.5;
     austin.anchor.y = 0.5;
     austin.scale.x = 1;
+
 
     oldStair = new PIXI.Sprite(PIXI.loader.resources.oldStair.texture);
     oldStair.x = 833;
@@ -78,18 +79,48 @@ window.onload = function() {
     hammer.addChild(circle);*/
 
     btn = new PIXI.Sprite(PIXI.loader.resources.btn.texture);
-    btn.x = 500;
-    btn.y = 500;
+    btn.x = 700;
+    btn.y = 550;
     btn.anchor.x = 0.5;
     btn.anchor.y = 0.5;
     ease.add(btn, { width: btn.width * 1.05, height: btn.height * 1.05 }, { repeat: true, reverse: true, ease: 'easeOutQuad' });
 
+
+
     menu = new PIXI.Sprite(PIXI.loader.resources.menu.texture);
-    menu.x = 1000;
-    menu.y = 20;
+    menuH = menu.height;
+    menuW = menu.width;
+    menu.x = 840;
+    menu.y = 80;
+    menu.buttonMode = true;
     menu.interactive = true;
     menu.hitArea = new PIXI.Circle(menu.width / 2, menu.height / 2, menu.width / 2);
-    menu.alpha = 0;
+    menu.width = 0;
+    menu.height = 0;
+    menu.anchor.x = 0.5;
+    menu.anchor.y = 0.5;
+
+    menu2 = new PIXI.Sprite(PIXI.loader.resources.menu.texture);
+    menu2.x = 970;
+    menu2.y = 80;
+    menu2.buttonMode = true;
+    menu2.interactive = true;
+    menu2.hitArea = new PIXI.Circle(menu2.width / 2, menu2.height / 2, menu2.width / 2);
+    menu2.width = 0;
+    menu2.height = 0;
+    menu2.anchor.x = 0.5;
+    menu2.anchor.y = 0.5;
+
+    menu3 = new PIXI.Sprite(PIXI.loader.resources.menu.texture);
+    menu3.x = 1100;
+    menu3.y = 80;
+    menu3.buttonMode = true;
+    menu3.interactive = true;
+    menu3.hitArea = new PIXI.Circle(menu.width / 2, menu.height / 2, menu.width / 2);
+    menu3.width = 0;
+    menu3.height = 0;
+    menu3.anchor.x = 0.5;
+    menu3.anchor.y = 0.5;
 
     menuHover = new PIXI.Sprite(PIXI.loader.resources.menuHover.texture);
     menuHover.x = 300;
@@ -100,6 +131,16 @@ window.onload = function() {
     hammer.on('click', function(){
       console.log('HHHHHHHHaaammer');
       hammerClicked = true;
+      console.log('-- hammer clicked --')
+      ease.add(menu, { width: menuW, height: menuH }, { duration: 500, ease: 'easeOutBounce' });
+
+      window.setTimeout(function() {
+        ease.add(menu2, { width: menuW, height: menuH }, { duration: 500, ease: 'easeOutBounce' });
+      }, 200 );
+
+      window.setTimeout(function() {
+        ease.add(menu3, { width: menuW, height: menuH }, { duration: 500, ease: 'easeOutBounce' });
+      }, 400 );
     });
 
     menu.on('click', function(){
@@ -119,6 +160,8 @@ window.onload = function() {
     app.stage.addChild(austin);
     app.stage.addChild(btn);
     app.stage.addChild(menu);
+    app.stage.addChild(menu2);
+    app.stage.addChild(menu3);
     app.stage.addChild(menuHover);
     app.stage.addChild(oldStair);
     app.stage.addChild(hammer);
@@ -128,9 +171,10 @@ window.onload = function() {
 
   function animate() {
 
-    if (menu.alpha < 1 && hammerClicked) {
+    if (hammer.alpha > 0 && hammerClicked) {
       console.log('-- hammer clicked --')
-      menu.alpha += 0.1;
+      hammer.alpha -= .05;
+      hammer.interactive = false;
     }
 
     if (menuHover.alpha < 1 && isHover) {
@@ -144,11 +188,11 @@ window.onload = function() {
     }
 
     window.setTimeout(function() {
-      if (hammer.alpha < 1) {
+      if (hammer.alpha < 1 && !hammerClicked) {
         console.log('-- hammer --')
         hammer.alpha += .02;
       }
-    }, 3000 );
+    }, 2000 );
 
     requestAnimationFrame(animate);
     app.renderer.render(app.stage);
