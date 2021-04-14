@@ -1,10 +1,11 @@
-let app;
-let appHolder, menu, menu2, menu3, menuHover, isHover, btn, austin, oldStair, hammer, hammerClicked, menuH, menuW, book, chair, decor, globe, logo, table, plant;
-const ease = new Ease.Ease();
-
 window.onload = function() {
+  let app;
+  let appHolder, menu, menu2, menu3, menuHover, isHover, btn, austin, oldStair, hammer, hammerClicked, menuH, menuW, book, chair, decor, globe, logo, table, plant;
+
+  const ease = new Ease.Ease();
   const size = [1390, 640];
   const ratio = size[0] / size[1];
+
 //Create a Pixi Application
   app = new PIXI.Application({
         width: size[0],         // default: 800
@@ -18,18 +19,14 @@ window.onload = function() {
   app.renderer.view.style.position = "absolute";
   app.renderer.view.style.display = "block";
   app.renderer.autoResize = true;
-  //app.renderer.resize(window.innerWidth, window.innerHeight);
-
 
   appHolder = document.getElementById("playable");
   appHolder.appendChild(app.view);
 
-  //load an image and run the `setup` function when it's done
   PIXI.loader
       .add("images/atlas.json")
       .load(setup);
 
-//This `setup` function will run when the image has loaded
   function setup() {
 
     let id = PIXI.loader.resources["images/atlas.json"].textures;
@@ -220,7 +217,6 @@ window.onload = function() {
     }
     app.renderer.view.style.width = w + 'px';
     app.renderer.view.style.height = h + 'px';
-    app.renderer.view.style.position = 'absolute';
     app.renderer.view.style.top = (window.innerHeight / 2 - h / 2) + 'px';
 
   }
@@ -229,9 +225,6 @@ window.onload = function() {
   window.onresize = resize;
 }
 
-/*window.addEventListener("resize", function(event){
-  scaleToWindow(app.view);
-});*/
 
 
 
