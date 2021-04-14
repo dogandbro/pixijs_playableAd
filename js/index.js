@@ -1,5 +1,5 @@
 let app;
-let appHolder, menu, menu2, menu3, menuHover, isHover, btn, oldStair, hammer, hammerClicked, menuH, menuW;
+let appHolder, menu, menu2, menu3, menuHover, isHover, btn, austin, oldStair, hammer, hammerClicked, menuH, menuW, book, chair, decor, globe, logo, table, plant;
 const ease = new Ease.Ease();
 
 window.onload = function() {
@@ -7,13 +7,13 @@ window.onload = function() {
   const ratio = size[0] / size[1];
 //Create a Pixi Application
   app = new PIXI.Application({
-            width: size[0],         // default: 800
-            height: size[1],        // default: 600
-            antialias: true,    // default: false
-            transparent: false, // default: false
-            resolution: 1       // default: 1
-        }
-    );
+        width: size[0],         // default: 800
+        height: size[1],        // default: 600
+        antialias: true,    // default: false
+        transparent: false, // default: false
+        resolution: 1       // default: 1
+      }
+  );
 
   app.renderer.view.style.position = "absolute";
   app.renderer.view.style.display = "block";
@@ -26,39 +26,42 @@ window.onload = function() {
 
   //load an image and run the `setup` function when it's done
   PIXI.loader
-    .add("bg", "images/background.jpg")
-    .add("austin", "images/austin.png")
-    .add("menu", "images/menu.png")
-    .add("menuHover", "images/menu-hover.png")
-    .add("btn", "images/btn.png")
-    .add("oldStair", "images/old-stair.png")
-    .add("hammer", "images/hammer.png")
-    .load(setup);
-
-
-
+      .add("images/atlas.json")
+      .load(setup);
 
 //This `setup` function will run when the image has loaded
   function setup() {
 
-    let bg = new PIXI.Sprite(PIXI.loader.resources.bg.texture);
-    //bg.y = app.renderer.view.height / 2 - bg.height / 2;
+    let id = PIXI.loader.resources["images/atlas.json"].textures;
 
-    let austin = new PIXI.Sprite(PIXI.loader.resources.austin.texture);
-    austin.x = 750;
-    austin.y = 250;
+
+    let bg = new PIXI.Sprite(id["background.png"]);
+
+    austin = new PIXI.Sprite(id["austin.png"]);
+    austin.x = 735;
+    austin.y = 265;
     austin.anchor.x = 0.5;
     austin.anchor.y = 0.5;
     austin.scale.x = 1;
 
 
-    oldStair = new PIXI.Sprite(PIXI.loader.resources.oldStair.texture);
+    oldStair = new PIXI.Sprite(id["old-stair.png"]);
     oldStair.x = 833;
-    oldStair.y = 130;
+    oldStair.y = 125;
 
-    hammer = new PIXI.Sprite(PIXI.loader.resources.hammer.texture);
-    hammer.x = 1150;
-    hammer.y = 330;
+    book = new PIXI.Sprite(id["book.png"]);
+    book.x = 830;
+    book.y = -25;
+
+    logo = new PIXI.Sprite(id["logo.png"]);
+    logo.position.set(30, 5);
+
+    chair = new PIXI.Sprite(id["chair.png"]);
+    chair.position.set(50, 340);
+
+    hammer = new PIXI.Sprite(id["hammer.png"]);
+    hammer.x = 1140;
+    hammer.y = 325;
     hammer.alpha = 0;
     hammer.buttonMode = true;
     hammer.anchor.x = 0.5;
@@ -78,16 +81,16 @@ window.onload = function() {
     var circle = new PIXI.Sprite(texture);
     hammer.addChild(circle);*/
 
-    btn = new PIXI.Sprite(PIXI.loader.resources.btn.texture);
-    btn.x = 700;
-    btn.y = 550;
+    btn = new PIXI.Sprite(id["btn.png"]);
+    btn.x = 690;
+    btn.y = 560;
     btn.anchor.x = 0.5;
     btn.anchor.y = 0.5;
     ease.add(btn, { width: btn.width * 1.05, height: btn.height * 1.05 }, { repeat: true, reverse: true, ease: 'easeOutQuad' });
 
 
 
-    menu = new PIXI.Sprite(PIXI.loader.resources.menu.texture);
+    menu = new PIXI.Sprite(id["menu.png"]);
     menuH = menu.height;
     menuW = menu.width;
     menu.x = 840;
@@ -100,7 +103,7 @@ window.onload = function() {
     menu.anchor.x = 0.5;
     menu.anchor.y = 0.5;
 
-    menu2 = new PIXI.Sprite(PIXI.loader.resources.menu.texture);
+    menu2 = new PIXI.Sprite(id["menu.png"]);
     menu2.x = 970;
     menu2.y = 80;
     menu2.buttonMode = true;
@@ -111,7 +114,7 @@ window.onload = function() {
     menu2.anchor.x = 0.5;
     menu2.anchor.y = 0.5;
 
-    menu3 = new PIXI.Sprite(PIXI.loader.resources.menu.texture);
+    menu3 = new PIXI.Sprite(id["menu.png"]);
     menu3.x = 1100;
     menu3.y = 80;
     menu3.buttonMode = true;
@@ -122,7 +125,7 @@ window.onload = function() {
     menu3.anchor.x = 0.5;
     menu3.anchor.y = 0.5;
 
-    menuHover = new PIXI.Sprite(PIXI.loader.resources.menuHover.texture);
+    menuHover = new PIXI.Sprite(id["menuHover.png"]);
     menuHover.x = 300;
     menuHover.y = 300;
     menuHover.alpha = 0;
@@ -165,6 +168,14 @@ window.onload = function() {
     app.stage.addChild(menuHover);
     app.stage.addChild(oldStair);
     app.stage.addChild(hammer);
+    app.stage.addChild(book);
+    app.stage.addChild(logo);
+    app.stage.addChild(chair);
+    //app.stage.addChild(decor);
+    //app.stage.addChild(globe);
+   // app.stage.addChild(plant);
+    //app.stage.addChild(table);
+
 
     animate();
   }
@@ -194,20 +205,24 @@ window.onload = function() {
       }
     }, 2000 );
 
-    requestAnimationFrame(animate);
     app.renderer.render(app.stage);
+    requestAnimationFrame(animate);
   }
 
   function resize() {
+    let w, h;
     if (window.innerWidth / window.innerHeight >= ratio) {
-      var w = window.innerHeight * ratio;
-      var h = window.innerHeight;
+       w = window.innerHeight * ratio;
+       h = window.innerHeight;
     } else {
-      var w = window.innerWidth;
-      var h = window.innerWidth / ratio;
+       w = window.innerWidth;
+       h = window.innerWidth / ratio;
     }
     app.renderer.view.style.width = w + 'px';
     app.renderer.view.style.height = h + 'px';
+    app.renderer.view.style.position = 'absolute';
+    app.renderer.view.style.top = (window.innerHeight / 2 - h / 2) + 'px';
+
   }
 
   resize();
