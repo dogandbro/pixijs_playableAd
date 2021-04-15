@@ -1,6 +1,6 @@
 window.onload = function() {
   let app;
-  let appHolder, menu, menu2, menu3, menuHover, isHover, btn, austin, oldStair, hammer, hammerClicked, menuH, menuW, book, chair, decor, globe, logo, table, plant;
+  let appHolder, menu, menu2, menu3, menuHover, isHover, btn, austin, oldStair, hammer, hammerClicked, menuH, menuW, book, chair, decor, globe, logo, table, plant1, plant2, bg;
 
   const ease = new Ease.Ease();
   const size = [1390, 640];
@@ -28,33 +28,45 @@ window.onload = function() {
       .load(setup);
 
   function setup() {
-
     let id = PIXI.loader.resources["images/atlas.json"].textures;
 
-
-    let bg = new PIXI.Sprite(id["background.png"]);
+    bg = new PIXI.Sprite(id["background.png"]);
 
     austin = new PIXI.Sprite(id["austin.png"]);
-    austin.x = 735;
-    austin.y = 265;
+    austin.position.set(735, 265);
     austin.anchor.x = 0.5;
     austin.anchor.y = 0.5;
     austin.scale.x = 1;
 
-
     oldStair = new PIXI.Sprite(id["old-stair.png"]);
-    oldStair.x = 833;
-    oldStair.y = 125;
+    oldStair.position.set(833, 125);
+    oldStair.zIndex = 10;
 
     book = new PIXI.Sprite(id["book.png"]);
-    book.x = 830;
-    book.y = -25;
+    book.position.set(830, -25);
+    book.zIndex = 5;
 
     logo = new PIXI.Sprite(id["logo.png"]);
     logo.position.set(30, 5);
 
+    globe = new PIXI.Sprite(id["globe.png"]);
+    globe.position.set(85, 108);
+
+    plant1 = new PIXI.Sprite(id["plant.png"]);
+    plant1.position.set(460, -40);
+
+    plant2 = new PIXI.Sprite(id["plant.png"]);
+    plant2.position.set(1130, 170);
+    plant2.zIndex = 1;
+
     chair = new PIXI.Sprite(id["chair.png"]);
-    chair.position.set(50, 340);
+    chair.position.set(125, 325);
+
+    decor = new PIXI.Sprite(id["decor.png"]);
+    decor.position.set(1120, 435);
+
+    table = new PIXI.Sprite(id["table.png"]);
+    table.position.set(200, 190);
 
     hammer = new PIXI.Sprite(id["hammer.png"]);
     hammer.x = 1140;
@@ -85,13 +97,10 @@ window.onload = function() {
     btn.anchor.y = 0.5;
     ease.add(btn, { width: btn.width * 1.05, height: btn.height * 1.05 }, { repeat: true, reverse: true, ease: 'easeOutQuad' });
 
-
-
     menu = new PIXI.Sprite(id["menu.png"]);
     menuH = menu.height;
     menuW = menu.width;
-    menu.x = 840;
-    menu.y = 80;
+    menu.position.set(910, 75);
     menu.buttonMode = true;
     menu.interactive = true;
     menu.hitArea = new PIXI.Circle(menu.width / 2, menu.height / 2, menu.width / 2);
@@ -99,10 +108,10 @@ window.onload = function() {
     menu.height = 0;
     menu.anchor.x = 0.5;
     menu.anchor.y = 0.5;
+    menu.zIndex = 10;
 
     menu2 = new PIXI.Sprite(id["menu.png"]);
-    menu2.x = 970;
-    menu2.y = 80;
+    menu2.position.set(1040, 75);
     menu2.buttonMode = true;
     menu2.interactive = true;
     menu2.hitArea = new PIXI.Circle(menu2.width / 2, menu2.height / 2, menu2.width / 2);
@@ -110,10 +119,10 @@ window.onload = function() {
     menu2.height = 0;
     menu2.anchor.x = 0.5;
     menu2.anchor.y = 0.5;
+    menu2.zIndex = 10;
 
     menu3 = new PIXI.Sprite(id["menu.png"]);
-    menu3.x = 1100;
-    menu3.y = 80;
+    menu3.position.set(1170, 75);
     menu3.buttonMode = true;
     menu3.interactive = true;
     menu3.hitArea = new PIXI.Circle(menu.width / 2, menu.height / 2, menu.width / 2);
@@ -121,8 +130,9 @@ window.onload = function() {
     menu3.height = 0;
     menu3.anchor.x = 0.5;
     menu3.anchor.y = 0.5;
+    menu3.zIndex = 10;
 
-    menuHover = new PIXI.Sprite(id["menuHover.png"]);
+    menuHover = new PIXI.Sprite(id["menu-hover.png"]);
     menuHover.x = 300;
     menuHover.y = 300;
     menuHover.alpha = 0;
@@ -159,19 +169,20 @@ window.onload = function() {
     app.stage.addChild(bg);
     app.stage.addChild(austin);
     app.stage.addChild(btn);
+    app.stage.addChild(book);
+    app.stage.addChild(logo);
+    app.stage.addChild(chair);
+    app.stage.addChild(globe);
+    app.stage.addChild(plant1);
+    app.stage.addChild(plant2);
+    app.stage.addChild(table);
     app.stage.addChild(menu);
     app.stage.addChild(menu2);
     app.stage.addChild(menu3);
     app.stage.addChild(menuHover);
     app.stage.addChild(oldStair);
+    app.stage.addChild(decor);
     app.stage.addChild(hammer);
-    app.stage.addChild(book);
-    app.stage.addChild(logo);
-    app.stage.addChild(chair);
-    //app.stage.addChild(decor);
-    //app.stage.addChild(globe);
-   // app.stage.addChild(plant);
-    //app.stage.addChild(table);
 
 
     animate();
