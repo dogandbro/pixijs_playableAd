@@ -1,34 +1,30 @@
 window.onload = function() {
-  let app;
   let appHolder, menu, menu2, menu3, menuHover, menu2Hover, menu3Hover,
-      btn, austin, oldStair, hammer, btnOk, finalImgSize,
+      btn, austin, oldStair, hammer, btnOk, finalImgSize, id,
       menuH, menuW, book, chair, decor, globe, logo, table, plant1, plant2,
-      stairIcon1, stairIcon2, stairIcon3, stairIconH, stairIconW, bg, newStair1, newStair2, newStair3, finalImg, overlay;
-  let isMenuClicked = {
-    menu1: false,
-    menu2: false,
-    menu3: false
-  };
-  const ease = new Ease.Ease();
-  const size = [1390, 640];
-  const ratio = size[0] / size[1];
+      stairIcon1, stairIcon2, stairIcon3, stairIconSize, bg, newStair1, newStair2, newStair3, finalImg, overlay,
+      isMenuClicked = {
+        menu1: false,
+        menu2: false,
+        menu3: false
+      };
 
-  const graphics = new PIXI.Graphics();
-
-//Create a Pixi Application
-  app = new PIXI.Application({
-        width: size[0],         // default: 800
-        height: size[1],        // default: 600
-        antialias: true,    // default: false
-        transparent: false, // default: false
-        resolution: 1       // default: 1
-      }
-  );
+  const ease = new Ease.Ease(),
+        size = [1390, 640],
+        ratio = size[0] / size[1],
+        graphics = new PIXI.Graphics(),
+        sprite = PIXI.Sprite,
+        app = new PIXI.Application({
+              width: size[0],         // default: 800
+              height: size[1],        // default: 600
+              antialias: true,        // default: false
+              transparent: false,     // default: false
+              resolution: 1           // default: 1
+            }
+        );
 
   app.renderer.view.style.position = "absolute";
   app.renderer.view.style.display = "block";
-  app.renderer.autoResize = true;
-
   appHolder = document.getElementById("playable");
   appHolder.appendChild(app.view);
 
@@ -37,47 +33,55 @@ window.onload = function() {
       .load(setup);
 
   function setup() {
-    let id = PIXI.loader.resources["images/atlas.json"].textures;
+    id = PIXI.loader.resources["images/atlas.json"].textures;
 
-    bg = new PIXI.Sprite(id["background.png"]);
+    initSprites();
+    addEvents();
+    addImgToStage();
+    animateByFrame();
+    resize();
+  }
 
-    austin = new PIXI.Sprite(id["austin.png"]);
+  function initSprites() {
+    bg = new sprite(id["background.png"]);
+
+    austin = new sprite(id["austin.png"]);
     austin.position.set(735, 265);
     austin.anchor.x = 0.5;
     austin.anchor.y = 0.5;
     austin.scale.x = 1;
 
-    oldStair = new PIXI.Sprite(id["old-stair.png"]);
+    oldStair = new sprite(id["old-stair.png"]);
     oldStair.position.set(833, 125);
     oldStair.zIndex = 10;
 
-    book = new PIXI.Sprite(id["book.png"]);
+    book = new sprite(id["book.png"]);
     book.position.set(830, -25);
     book.zIndex = 5;
 
-    logo = new PIXI.Sprite(id["logo.png"]);
+    logo = new sprite(id["logo.png"]);
     logo.position.set(30, 5);
 
-    globe = new PIXI.Sprite(id["globe.png"]);
+    globe = new sprite(id["globe.png"]);
     globe.position.set(85, 108);
 
-    plant1 = new PIXI.Sprite(id["plant.png"]);
+    plant1 = new sprite(id["plant.png"]);
     plant1.position.set(460, -40);
 
-    plant2 = new PIXI.Sprite(id["plant.png"]);
+    plant2 = new sprite(id["plant.png"]);
     plant2.position.set(1130, 170);
     plant2.zIndex = 1;
 
-    chair = new PIXI.Sprite(id["chair.png"]);
+    chair = new sprite(id["chair.png"]);
     chair.position.set(125, 325);
 
-    decor = new PIXI.Sprite(id["decor.png"]);
+    decor = new sprite(id["decor.png"]);
     decor.position.set(1120, 435);
 
-    table = new PIXI.Sprite(id["table.png"]);
+    table = new sprite(id["table.png"]);
     table.position.set(200, 190);
 
-    hammer = new PIXI.Sprite(id["hammer.png"]);
+    hammer = new sprite(id["hammer.png"]);
     hammer.x = 1140;
     hammer.y = 325;
     hammer.alpha = 0;
@@ -89,14 +93,14 @@ window.onload = function() {
     ease.add(hammer, { y: hammer.y + 10 }, { repeat: true, reverse: true, ease: 'easeOutQuad' });
     ease.add(hammer, { alpha: 1 }, { repeat: false, wait: 1500, duration: 300, ease: 'linear' });
 
-    btnOk = new PIXI.Sprite(id["btn-ok.png"]);
+    btnOk = new sprite(id["btn-ok.png"]);
     btnOk.buttonMode = true;
     btnOk.interactive = true;
     btnOk.alpha = 0;
     btnOk.anchor.x = 0.5;
     btnOk.anchor.y = 0.5;
 
-    btn = new PIXI.Sprite(id["btn.png"]);
+    btn = new sprite(id["btn.png"]);
     btn.x = 690;
     btn.y = 560;
     btn.anchor.x = 0.5;
@@ -105,7 +109,7 @@ window.onload = function() {
     btn.buttonMode = true;
     ease.add(btn, { width: btn.width * 1.05, height: btn.height * 1.05 }, { repeat: true, reverse: true, ease: 'easeOutQuad' });
 
-    menu = new PIXI.Sprite(id["menu.png"]);
+    menu = new sprite(id["menu.png"]);
     menuH = menu.height;
     menuW = menu.width;
     menu.position.set(910, 75);
@@ -118,48 +122,50 @@ window.onload = function() {
     menu.anchor.y = 0.5;
     menu.zIndex = 10;
 
-    newStair1 = new PIXI.Sprite(id["new-stair-1.png"]);
+    newStair1 = new sprite(id["new-stair-1.png"]);
     newStair1.position.set(1150, 228);
     newStair1.anchor.x = 0.5;
     newStair1.anchor.y = 0.5;
     newStair1.alpha = 0;
 
-    newStair2 = new PIXI.Sprite(id["new-stair-2.png"]);
+    newStair2 = new sprite(id["new-stair-2.png"]);
     newStair2.position.set(1150, 228);
     newStair2.anchor.x = 0.5;
     newStair2.anchor.y = 0.5;
     newStair2.alpha = 0;
 
-    newStair3 = new PIXI.Sprite(id["new-stair-3.png"]);
+    newStair3 = new sprite(id["new-stair-3.png"]);
     newStair3.position.set(1150, 228);
     newStair3.anchor.x = 0.5;
     newStair3.anchor.y = 0.5;
     newStair3.alpha = 0;
 
-    stairIcon1 = new PIXI.Sprite(id["stair-1.png"]);
-    stairIconH = stairIcon1.height;
-    stairIconW = stairIcon1.width;
+    stairIcon1 = new sprite(id["stair-1.png"]);
+    stairIconSize = {
+      width: stairIcon1.width,
+      height: stairIcon1.height
+    };
     stairIcon1.position.set(918, 62);
     stairIcon1.width = 0;
     stairIcon1.height = 0;
     stairIcon1.anchor.x = 0.5;
     stairIcon1.anchor.y = 0.5;
 
-    stairIcon2 = new PIXI.Sprite(id["stair-2.png"]);
+    stairIcon2 = new sprite(id["stair-2.png"]);
     stairIcon2.position.set(1050, 62);
     stairIcon2.width = 0;
     stairIcon2.height = 0;
     stairIcon2.anchor.x = 0.5;
     stairIcon2.anchor.y = 0.5;
 
-    stairIcon3 = new PIXI.Sprite(id["stair-3.png"]);
+    stairIcon3 = new sprite(id["stair-3.png"]);
     stairIcon3.position.set(1175, 62);
     stairIcon3.width = 0;
     stairIcon3.height = 0;
     stairIcon3.anchor.x = 0.5;
     stairIcon3.anchor.y = 0.5;
 
-    menu2 = new PIXI.Sprite(id["menu.png"]);
+    menu2 = new sprite(id["menu.png"]);
     menu2.position.set(1040, 75);
     menu2.buttonMode = true;
     menu2.interactive = true;
@@ -170,7 +176,7 @@ window.onload = function() {
     menu2.anchor.y = 0.5;
     menu2.zIndex = 10;
 
-    menu3 = new PIXI.Sprite(id["menu.png"]);
+    menu3 = new sprite(id["menu.png"]);
     menu3.position.set(1170, 75);
     menu3.buttonMode = true;
     menu3.interactive = true;
@@ -181,25 +187,25 @@ window.onload = function() {
     menu3.anchor.y = 0.5;
     menu3.zIndex = 10;
 
-    menuHover = new PIXI.Sprite(id["menu-hover.png"]);
+    menuHover = new sprite(id["menu-hover.png"]);
     menuHover.position.set(910, 75);
     menuHover.anchor.x = 0.5;
     menuHover.anchor.y = 0.5;
     menuHover.alpha = 0;
 
-    menu2Hover = new PIXI.Sprite(id["menu-hover.png"]);
+    menu2Hover = new sprite(id["menu-hover.png"]);
     menu2Hover.position.set(1040, 75);
     menu2Hover.anchor.x = 0.5;
     menu2Hover.anchor.y = 0.5;
     menu2Hover.alpha = 0;
 
-    menu3Hover = new PIXI.Sprite(id["menu-hover.png"]);
+    menu3Hover = new sprite(id["menu-hover.png"]);
     menu3Hover.position.set(1170, 75);
     menu3Hover.anchor.x = 0.5;
     menu3Hover.anchor.y = 0.5;
     menu3Hover.alpha = 0;
 
-    finalImg = new PIXI.Sprite(id["final.png"]);
+    finalImg = new sprite(id["final.png"]);
     finalImg.position.set(700, 250);
     finalImg.anchor.x = 0.5;
     finalImg.anchor.y = 0.5;
@@ -216,17 +222,18 @@ window.onload = function() {
     overlay.alpha = 0;
     overlay.interactive = true;
     overlay.visible = false;
+  }
 
-
+  function addEvents() {
     hammer.on('click', function(){
       hammer.interactive = false;
       ease.add(hammer, { alpha: 0 }, { repeat: false, duration: 300, ease: 'linear' });
       ease.add(menu, { width: menuW, height: menuH }, { duration: 1000, ease: 'easeOutElastic' });
-      ease.add(stairIcon1, { width: stairIconW, height: stairIconH }, { duration: 1000, ease: 'easeOutElastic' });
+      ease.add(stairIcon1, { width: stairIconSize.width, height: stairIconSize.height }, { duration: 1000, ease: 'easeOutElastic' });
       ease.add(menu2, { width: menuW, height: menuH }, {wait: 100, duration: 1000, ease: 'easeOutElastic' });
-      ease.add(stairIcon2, { width: stairIconW, height: stairIconH }, {wait: 100, duration: 1000, ease: 'easeOutElastic' });
+      ease.add(stairIcon2, { width: stairIconSize.width, height: stairIconSize.height }, {wait: 100, duration: 1000, ease: 'easeOutElastic' });
       ease.add(menu3, { width: menuW, height: menuH }, {wait: 200, duration: 1000, ease: 'easeOutElastic' });
-      ease.add(stairIcon3, { width: stairIconW, height: stairIconH }, {wait: 200, duration: 1000, ease: 'easeOutElastic' });
+      ease.add(stairIcon3, { width: stairIconSize.width, height: stairIconSize.height }, {wait: 200, duration: 1000, ease: 'easeOutElastic' });
 
     });
 
@@ -329,7 +336,9 @@ window.onload = function() {
       ease.add(finalImg, { width: finalImgSize.width, height: finalImgSize.height }, { duration: 800, ease: 'easeOutElastic' });
       ease.add(overlay, { alpha: 0.5 }, { repeat: false, duration: 500, ease: 'linear' });
     });
+  }
 
+  function addImgToStage() {
     //Add images to the stage
     app.stage.addChild(bg);
     app.stage.addChild(austin);
@@ -359,21 +368,17 @@ window.onload = function() {
     app.stage.addChild(logo);
     app.stage.addChild(btn);
     app.stage.addChild(finalImg);
-
-
-    animate();
   }
 
-  function animate() {
+  function animateByFrame() {
     // Rotate Austin
     if(app.renderer.plugins.interaction.mouse.global.x < austin.x){
       austin.scale.x = -1;
     } else {
       austin.scale.x = 1;
     }
-
     app.renderer.render(app.stage);
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animateByFrame);
   }
 
   function resize() {
@@ -391,9 +396,8 @@ window.onload = function() {
 
   }
 
-  resize();
   window.onresize = resize;
-}
+};
 
 
 
