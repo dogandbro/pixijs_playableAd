@@ -221,6 +221,7 @@ window.onload = function() {
   function addEvents() {
     hammer.on('click', function(){
       hammer.interactive = false;
+      ease.removeEase(hammer);
       ease.add(hammer, { alpha: 0 }, { repeat: false, duration: 300, ease: 'linear' });
       ease.add(menu, { width: menuW, height: menuH }, { duration: 1000, ease: 'easeOutElastic' });
       ease.add(stairIcon1, { width: stairIconSize.width, height: stairIconSize.height }, { duration: 1000, ease: 'easeOutElastic' });
