@@ -53,11 +53,9 @@ window.onload = function() {
 
     oldStair = new sprite(id["old-stair.png"]);
     oldStair.position.set(833, 125);
-    oldStair.zIndex = 10;
 
     book = new sprite(id["book.png"]);
     book.position.set(830, -25);
-    book.zIndex = 5;
 
     logo = new sprite(id["logo.png"]);
     logo.position.set(30, 5);
@@ -70,7 +68,6 @@ window.onload = function() {
 
     plant2 = new sprite(id["plant.png"]);
     plant2.position.set(1130, 170);
-    plant2.zIndex = 1;
 
     chair = new sprite(id["chair.png"]);
     chair.position.set(125, 325);
@@ -91,7 +88,7 @@ window.onload = function() {
     hammer.interactive = true;
     hammer.hitArea = new PIXI.Circle(0, 0, hammer.width / 2);
     ease.add(hammer, { y: hammer.y + 10 }, { repeat: true, reverse: true, ease: 'easeOutQuad' });
-    ease.add(hammer, { alpha: 1 }, { repeat: false, wait: 1500, duration: 300, ease: 'linear' });
+    ease.add(hammer, { alpha: 1 }, { repeat: false, wait: 2000, duration: 500, ease: 'linear' });
 
     btnOk = new sprite(id["btn-ok.png"]);
     btnOk.buttonMode = true;
@@ -120,7 +117,6 @@ window.onload = function() {
     menu.height = 0;
     menu.anchor.x = 0.5;
     menu.anchor.y = 0.5;
-    menu.zIndex = 10;
 
     newStair1 = new sprite(id["new-stair-1.png"]);
     newStair1.position.set(1150, 228);
@@ -174,7 +170,6 @@ window.onload = function() {
     menu2.height = 0;
     menu2.anchor.x = 0.5;
     menu2.anchor.y = 0.5;
-    menu2.zIndex = 10;
 
     menu3 = new sprite(id["menu.png"]);
     menu3.position.set(1170, 75);
@@ -185,7 +180,6 @@ window.onload = function() {
     menu3.height = 0;
     menu3.anchor.x = 0.5;
     menu3.anchor.y = 0.5;
-    menu3.zIndex = 10;
 
     menuHover = new sprite(id["menu-hover.png"]);
     menuHover.position.set(910, 75);
@@ -335,6 +329,7 @@ window.onload = function() {
       overlay.visible = true;
       ease.add(finalImg, { width: finalImgSize.width, height: finalImgSize.height }, { duration: 800, ease: 'easeOutElastic' });
       ease.add(overlay, { alpha: 0.5 }, { repeat: false, duration: 500, ease: 'linear' });
+      ease.removeEase(btnOk);
     });
   }
 
