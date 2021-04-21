@@ -47,8 +47,7 @@ window.onload = function() {
 
     austin = new sprite(id["austin.png"]);
     austin.position.set(735, 265);
-    austin.anchor.x = 0.5;
-    austin.anchor.y = 0.5;
+    austin.anchor.set(0.5);
     austin.scale.x = 1;
 
     oldStair = new sprite(id["old-stair.png"]);
@@ -79,12 +78,10 @@ window.onload = function() {
     table.position.set(200, 190);
 
     hammer = new sprite(id["hammer.png"]);
-    hammer.x = 1140;
-    hammer.y = 325;
+    hammer.position.set(1140, 325);
     hammer.alpha = 0;
     hammer.buttonMode = true;
-    hammer.anchor.x = 0.5;
-    hammer.anchor.y = 0.5;
+    hammer.anchor.set(0.5);
     hammer.interactive = true;
     hammer.hitArea = new PIXI.Circle(0, 0, hammer.width / 2);
     ease.add(hammer, { y: hammer.y + 10 }, { repeat: true, reverse: true, ease: 'easeOutQuad' });
@@ -94,14 +91,11 @@ window.onload = function() {
     btnOk.buttonMode = true;
     btnOk.interactive = true;
     btnOk.alpha = 0;
-    btnOk.anchor.x = 0.5;
-    btnOk.anchor.y = 0.5;
+    btnOk.anchor.set(0.5);
 
     btn = new sprite(id["btn.png"]);
-    btn.x = 690;
-    btn.y = 560;
-    btn.anchor.x = 0.5;
-    btn.anchor.y = 0.5;
+    btn.position.set(690, 560);
+    btn.anchor.set(0.5);
     btn.interactive = true;
     btn.buttonMode = true;
     ease.add(btn, { width: btn.width * 1.05, height: btn.height * 1.05 }, { repeat: true, reverse: true, ease: 'easeOutQuad' });
@@ -115,25 +109,21 @@ window.onload = function() {
     menu.hitArea = new PIXI.Circle(0, 0, menu.width / 2);
     menu.width = 0;
     menu.height = 0;
-    menu.anchor.x = 0.5;
-    menu.anchor.y = 0.5;
+    menu.anchor.set(0.5);
 
     newStair1 = new sprite(id["new-stair-1.png"]);
     newStair1.position.set(1150, 228);
-    newStair1.anchor.x = 0.5;
-    newStair1.anchor.y = 0.5;
+    newStair1.anchor.set(0.5);
     newStair1.alpha = 0;
 
     newStair2 = new sprite(id["new-stair-2.png"]);
     newStair2.position.set(1150, 228);
-    newStair2.anchor.x = 0.5;
-    newStair2.anchor.y = 0.5;
+    newStair2.anchor.set(0.5);
     newStair2.alpha = 0;
 
     newStair3 = new sprite(id["new-stair-3.png"]);
     newStair3.position.set(1150, 228);
-    newStair3.anchor.x = 0.5;
-    newStair3.anchor.y = 0.5;
+    newStair3.anchor.set(0.5);
     newStair3.alpha = 0;
 
     stairIcon1 = new sprite(id["stair-1.png"]);
@@ -144,22 +134,19 @@ window.onload = function() {
     stairIcon1.position.set(918, 62);
     stairIcon1.width = 0;
     stairIcon1.height = 0;
-    stairIcon1.anchor.x = 0.5;
-    stairIcon1.anchor.y = 0.5;
+    stairIcon1.anchor.set(0.5);
 
     stairIcon2 = new sprite(id["stair-2.png"]);
     stairIcon2.position.set(1050, 62);
     stairIcon2.width = 0;
     stairIcon2.height = 0;
-    stairIcon2.anchor.x = 0.5;
-    stairIcon2.anchor.y = 0.5;
+    stairIcon2.anchor.set(0.5);
 
     stairIcon3 = new sprite(id["stair-3.png"]);
     stairIcon3.position.set(1175, 62);
     stairIcon3.width = 0;
     stairIcon3.height = 0;
-    stairIcon3.anchor.x = 0.5;
-    stairIcon3.anchor.y = 0.5;
+    stairIcon3.anchor.set(0.5);
 
     menu2 = new sprite(id["menu.png"]);
     menu2.position.set(1040, 75);
@@ -168,8 +155,7 @@ window.onload = function() {
     menu2.hitArea = new PIXI.Circle(0, 0, menu2.width / 2);
     menu2.width = 0;
     menu2.height = 0;
-    menu2.anchor.x = 0.5;
-    menu2.anchor.y = 0.5;
+    menu2.anchor.set(0.5);
 
     menu3 = new sprite(id["menu.png"]);
     menu3.position.set(1170, 75);
@@ -178,31 +164,26 @@ window.onload = function() {
     menu3.hitArea = new PIXI.Circle(0, 0, menu3.width / 2);
     menu3.width = 0;
     menu3.height = 0;
-    menu3.anchor.x = 0.5;
-    menu3.anchor.y = 0.5;
+    menu3.anchor.set(0.5);
 
     menuHover = new sprite(id["menu-hover.png"]);
     menuHover.position.set(910, 75);
-    menuHover.anchor.x = 0.5;
-    menuHover.anchor.y = 0.5;
+    menuHover.anchor.set(0.5);
     menuHover.alpha = 0;
 
     menu2Hover = new sprite(id["menu-hover.png"]);
     menu2Hover.position.set(1040, 75);
-    menu2Hover.anchor.x = 0.5;
-    menu2Hover.anchor.y = 0.5;
+    menu2Hover.anchor.set(0.5);
     menu2Hover.alpha = 0;
 
     menu3Hover = new sprite(id["menu-hover.png"]);
     menu3Hover.position.set(1170, 75);
-    menu3Hover.anchor.x = 0.5;
-    menu3Hover.anchor.y = 0.5;
+    menu3Hover.anchor.set(0.5);
     menu3Hover.alpha = 0;
 
     finalImg = new sprite(id["final.png"]);
     finalImg.position.set(700, 250);
-    finalImg.anchor.x = 0.5;
-    finalImg.anchor.y = 0.5;
+    finalImg.anchor.set(0.5);
     finalImgSize = {
       width: finalImg.width,
       height: finalImg.height
